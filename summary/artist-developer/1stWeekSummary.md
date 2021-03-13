@@ -185,7 +185,47 @@ console.log(arr4);    // [0, 1, 2, 3, 4, 5]
 
 
 #### promises (비동기 프로그래밍)
+: 프로미스는 자바스크립트 비동기 처리에 사용되는 객체  
+: 프로미스는 주로 서버에서 받아온 데이터를 화면에 표시할 때 사용  
+: Promise는 3가지 state를 가짐  
+- Pending(대기) : 비동기 처리 로직이 아직 완료되지 않은 상태  
+- Fulfilled(이행) : 비동기 처리가 완료되어 프로미스가 결과 값을 반환해준 상태  
+- Rejected(실패) : 비동기 처리가 실패하거나 오류가 발생한 상태  
 
+
+~~~~
+// es5
+function getData(callbackFunc) {
+  $.get('url 주소/products/1', function(response) {
+    callbackFunc(response); // 서버에서 받은 데이터 response를 callbackFunc() 함수에 넘겨줌
+  });
+}
+
+getData(function(tableData) {
+  console.log(tableData); // $.get()의 response 값이 tableData에 전달됨
+});
+~~~~
+~~~~
+// es6
+function getData() {
+  return new Promise(function(resolve, reject) {
+    $.get('url 주소/products/1', function(response) {
+      if (response) {
+        resolve(response);
+      }
+      reject(new Error("Request is failed"));
+    });
+  });
+}
+
+// 위 $.get() 호출 결과에 따라 'response' 또는 'Error' 출력
+getData().then(function(data) {
+  console.log(data); // response 값 출력
+}).catch(function(err) {
+  console.error(err); // Error 출력
+});
+~~~~
+: Promise의 chaining을 통해 여러개의 promise를 연결 가능  
 
 #### math + number + string + array + object APIs
 
@@ -194,11 +234,6 @@ console.log(arr4);    // [0, 1, 2, 3, 4, 5]
 
 
 #### reflect api
-
-
-#### tail calls (꼬리 물기 최적화)
-
-
 
 
 
