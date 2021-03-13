@@ -283,3 +283,65 @@ console.log(int32[0]); // 123
   
     
 ## VueJS LifeCycle
+: 참고 - https://kr.vuejs.org/v2/guide/instance.html#%EB%9D%BC%EC%9D%B4%ED%94%84%EC%82%AC%EC%9D%B4%ED%81%B4-%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8  
+### create 
+: 라이프 사이클들 중에 가장 먼저 실행  
+: create 단계에서 실행되는 라이프 사이클 훅(hook)들은 컴포넌트가 DOM에 추가 되기 전이기 때문에, DOM에 접근하거나 this.$el을 사용할 수 없다.  
+
+
+- beforeCreate  
+: 가장 먼저 실행 되는 훅  
+: 인스턴스가 초기화된 직후에 발생.  
+: 데이터 관찰 및 이벤트, watcher 설정 전에 호출 - data, methods에 접근할 수 없다.  
+
+- created  
+: 인스턴스가 생성된 후 동기적 발생.  
+: mounted가 시작되지 않았으므로 $el 속성을 사용하지 못한다.  
+
+
+### Mounting (DOM Insertion)
+: mounting 클래스를 사용하면 첫 번째 렌더링 전 / 후에 컴포넌트에 즉시 접근할 수 있다.  
+: 초기 렌더링 직전 또는 직후, 구성 요소의 DOM에 접근하거나 수정해야할 때 사용한다.  
+
+
+- beforeMount  
+: mounting이 시작되기 전에 호출  
+: 초기 렌더링이 발생하기 전 / 템플릿 또는 렌더함수가 컴파일 된 후에 실행  
+: 가상 DOM이 생성되어있으나, 실제 DOM에는 mount 되지 않은 상태  
+
+- mounted
+: 인스턴스가 마운트된 후 el이 호출되며, 새로 작성된 인스턴스vm.$el로 대체된다.  
+: 가상 DOM의 내용이 실제 DOM에 부착되고 난 이후에 실행되므로 data, computed, methods, watch등 모든 요소에 접근이 가능  
+: 주의! 현재 컴포넌트가 mount 되었다고 해서 모든 하위 구성요소도 mount 된 것을 보장하지 않는다.  
+
+
+### Updating
+: 업데이트는 컴포넌트의 변화 또는 re-render되는 발생 원인에 대해 민감하게 반응하여 수행된다.  
+: 주로 디버깅이나 프로파일링을 위해 컴포넌트들이 언제 다시 렌더링 될 지 알고 있을 때 사용.  
+
+
+- beforeUpdate  
+: DOM이 패치(patch)되기 전, 데이터가 변경될 때 호출  
+: 업데이트 전에 기존 DOM에 엑세스 가능  
+
+- updated  
+: 데이터 변경 후 호출되어 가상 DOM이 다시 렌더링 되고 patch될 때 호출  
+: 구성요소의 DOM이 업데이트 되므로 이 때 DOM에 종속된 동작을 수행할 수 있다.  
+: updated 또한 mounted처럼 모든 하위 구성요소의 렌더링을 보장하지 않는다.  
+
+
+### Destruction (Teardown)  
+: destruction은 cleanup 또는 analytics sending과 같이, 컴포넌트가 파괴될 때 수행  
+: 컴포넌트가 해체되어 DOM에서 제거되면 실행
+
+
+- beforeDestroy  
+: 인스턴스가 삭제되기 전에 호출  
+: 인스턴스는 여전히 작동한다.  
+
+- destroyed  
+: 스턴스가 제거된 후에 호출  
+
+
+
+
